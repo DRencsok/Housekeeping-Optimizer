@@ -6,7 +6,7 @@
     <script src="https://unpkg.com/htmx.org@2.0.4"></script>
     <title>{% block title %}Housekeeping{% endblock %}</title>
 </head>
-<body>
+<body hx-header='{X-CSRFToken : "{{ csrf_token}}" }'>
     <header>
         
     </header>

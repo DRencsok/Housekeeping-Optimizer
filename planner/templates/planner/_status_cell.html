@@ -1,0 +1,10 @@
+<td id="status-{{ status.id }}">
+    {% for value, label in status_choices %}
+        <button hx-post="{% url 'set_status' status.id value %}"
+                hx-target="#status-{{ status.id }}"
+                hx-swap="outerHTML"
+                {% if status.status == value %}disabled{% endif %}>
+            {{ label }}
+        </button>
+    {% endfor %}
+</td>

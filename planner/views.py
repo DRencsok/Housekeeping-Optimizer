@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpResponse
 from .models import DayPlan, RoomStatus, Room, RoomStatusChoice
 from datetime import date
@@ -18,7 +18,7 @@ def dayplan(request):
     statuses = RoomStatus.objects.filter(day_plan=day_plan)
 
     if request.method == "POST":
-        for status in RoomStatus.objects.filter(day_plan=day_plan):
+        for status in statuses:
             new_value = request.POST.get(f"status_{status.id}")
             if new_value and new_value != status.status:
                 status.status = new_value
@@ -31,3 +31,14 @@ def dayplan(request):
             "statuses": statuses,
             "status_choices": RoomStatusChoice.choices,
             })
+
+def set_status(request, status_id, value):
+    status = get_object_or_404(RoomStatus, id=status_id)
+    status.status = value
+    status.save()
+
+    return render(request, "planner/_status_cell.html",
+                  {
+                  "status": status,
+                  "status_choices": RoomStatusChoice.choices,
+                  })

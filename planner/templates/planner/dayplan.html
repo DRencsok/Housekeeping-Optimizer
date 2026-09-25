@@ -13,28 +13,16 @@
                 <th>Number</th>
                 <th>Status</th>
             </tr>
-        {% for room in statuses %}
+        {% for status in statuses %}
         <tr>
-            <td>{{ room.room.floor }}.</td>
-            <td>{{ room.room.type }}</td>
-            <td>{{ room.room.number }}</td>
-            <td>
-                <label>
-                {% for value, label in status_choices %}
-                <input type="radio" name="status_{{ room.id }}"
-                                    value="{{ value }}"
-                                    {% if room.status == value %}checked{% endif %}>
-                {{ label }}
-                </label>
-                {% endfor %}
-            </td>
-            <td>
-            </td>
+            <td>{{ status.room.floor }}.</td>
+            <td>{{ status.room.room_type }}</td>
+            <td>{{ status.room.number }}</td>
+            {% include "planner/_status_cell.html" %}
         </tr>
         {% empty %}
         <tr><td colspan="3">No rooms yet, add data.</td></tr>
         {% endfor %}
     </table>
-    <button type="submit">Save</button>
 </form>
 {% endblock %}
